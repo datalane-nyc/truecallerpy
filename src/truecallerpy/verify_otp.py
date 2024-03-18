@@ -1,6 +1,7 @@
 import httpx
 import phonenumbers
 from phonenumbers import region_code_for_country_code
+from .proxy import PROXY
 
 
 async def verify_otp(phone_number, json_data, otp):
@@ -46,7 +47,7 @@ async def verify_otp(phone_number, json_data, otp):
 
         url = "https://account-asia-south1.truecaller.com/v1/verifyOnboardingOtp"
 
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(proxies=PROXY) as client:
             response = await client.post(url, json=post_data, headers=headers)
 
         response.raise_for_status()

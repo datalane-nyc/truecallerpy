@@ -339,6 +339,10 @@ phones_list = [
     },
 ]
 
+DEFAULT_SAMSUNG_DEVICE =  {
+    "manufacturer": "Samsung",
+    "model": "Samsung Galaxy M01 Core",
+}
 
 def get_random_device():
     random_index = random.randint(0, len(phones_list) - 1)
