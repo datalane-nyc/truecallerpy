@@ -1,42 +1,25 @@
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "truecallerpy"
 version = "1.0.3"
 description = "TruecallerPy is a Python package that provides functionalities to interact with the Truecaller API. It allows you to perform login, OTP verification, and phone number search using Truecaller."
+authors = []
+license = "MIT"
 readme = "README.md"
-license = { file = "LICENSE" }
-keywords = [
-    "truecallerpy",
-    "truecaller",
-    "search",
-    "phone",
-    "number",
-    "phonenumber",
-    "information",
-    "mobile",
-]
-authors = [{ name = "Sumith Emmadi", email = "sumithemmadi244@gmail.com" }]
-maintainers = [{ name = "Sumith Emmadi", email = "sumithemmadi244@gmail.com" }]
+package-mode = false
 
-classifiers = [
-    "Topic :: Utilities",
-    "Natural Language :: English",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-]
+[tool.poetry.dependencies]
+python = "^3.6"
+httpx = "*"
+phonenumbers = "*"
+questionary = "*"
+colorama = "*"
 
-dependencies = ["httpx", "phonenumbers", "questionary", "colorama"]
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
 
-[project.urls]
-Homepage = "https://github.com/sumithemmadi/truecallerpy"
-Documentation = "https://github.com/sumithemmadi/truecallerpy"
-Repository = "https://github.com/sumithemmadi/truecallerpy"
-Changelog = "https://github.com/sumithemmadi/truecallerpy"
-"Bug Tracker" = "https://github.com/sumithemmadi/truecallerpy/issues"
-
-[project.scripts]
+[tool.poetry.scripts]
 truecallerpy = "truecallerpy.cli:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
