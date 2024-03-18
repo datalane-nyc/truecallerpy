@@ -2,8 +2,8 @@ import httpx
 import random
 from phonenumbers import parse as parse_phone_number
 from phonenumbers.phonenumberutil import region_code_for_country_code
-from .data.phones_list import get_random_device
-
+from .data.phones_list import DEFAULT_SAMSUNG_DEVICE
+from .proxy import PROXY
 
 async def generate_random_string(length: int) -> str:
     """
@@ -19,7 +19,7 @@ async def generate_random_string(length: int) -> str:
     return ''.join(random.choice(characters) for _ in range(length))
 
 
-async def login(phone_number: str) -> dict:
+async def login(phone_number: str, device : dict = DEFAULT_SAMSUNG_DEVICE, device_id : str = "kyzqrmqcjlhsdexh") -> dict:
     """
     Login to Truecaller.
 
@@ -30,7 +30,7 @@ async def login(phone_number: str) -> dict:
         dict: The login response containing the requestId used for OTP verification.
     """
     pn = parse_phone_number(phone_number, None)
-    device = get_random_device()
+    # device = get_random_device()
 
     if not pn or not pn.country_code or not pn.national_number:
         raise ValueError("Invalid phone number.")
@@ -48,7 +48,7 @@ async def login(phone_number: str) -> dict:
                 "store": "GOOGLE_PLAY",
             },
             "device": {
-                "deviceId": await generate_random_string(16),
+                "deviceId": device_id,
                 "language": "en",
                 "manufacturer": device["manufacturer"],
                 "model": device["model"],
@@ -70,7 +70,7 @@ async def login(phone_number: str) -> dict:
         "clientsecret": "lvc22mp3l1sfv6ujg83rd17btt",
     }
     try:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(proxies=PROXY) as client:
             response = await client.post(post_url, json=data, headers=headers)
         
         response.raise_for_status()
