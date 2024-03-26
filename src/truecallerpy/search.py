@@ -1,6 +1,6 @@
 import httpx
 from phonenumbers import parse
-from .proxy import PROXY
+from .proxy import PROXY, SSL_CONTEXT
 
 async def search_phonenumber(phoneNumber, countryCode, installationId):
     """
@@ -36,7 +36,7 @@ async def search_phonenumber(phoneNumber, countryCode, installationId):
     }
 
     try:
-        async with httpx.AsyncClient(proxies=PROXY) as client:
+        async with httpx.AsyncClient(proxies=PROXY, verify=SSL_CONTEXT) as client:
             response = await client.get(
                 "https://search5-noneu.truecaller.com/v2/search", params=params, headers=headers
             )
@@ -86,7 +86,7 @@ async def bulk_search(phoneNumbers, countryCode, installationId):
         "encoding": "json"
     }
     try:
-        async with httpx.AsyncClient(proxies=PROXY) as client:
+        async with httpx.AsyncClient(proxies=PROXY, verify=SSL_CONTEXT) as client:
             response = await client.get(
                 "https://search5-noneu.truecaller.com/v2/bulk", params=params, headers=headers
             )

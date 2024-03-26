@@ -3,7 +3,9 @@ import random
 from phonenumbers import parse as parse_phone_number
 from phonenumbers.phonenumberutil import region_code_for_country_code
 from .data.phones_list import DEFAULT_SAMSUNG_DEVICE
-from .proxy import PROXY
+from .proxy import PROXY, SSL_CONTEXT
+
+
 
 async def generate_random_string(length: int) -> str:
     """
@@ -70,7 +72,7 @@ async def login(phone_number: str, device : dict = DEFAULT_SAMSUNG_DEVICE, devic
         "clientsecret": "lvc22mp3l1sfv6ujg83rd17btt",
     }
     try:
-        async with httpx.AsyncClient(proxies=PROXY) as client:
+        async with httpx.AsyncClient(proxies=PROXY, verify=SSL_CONTEXT) as client:
             response = await client.post(post_url, json=data, headers=headers)
         
         response.raise_for_status()
