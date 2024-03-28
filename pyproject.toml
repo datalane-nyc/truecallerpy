@@ -12,7 +12,6 @@ httpx = "*"
 phonenumbers = "*"
 questionary = "*"
 colorama = "*"
-aiohttp = "^3.9.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
