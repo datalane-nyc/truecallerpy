@@ -21,7 +21,7 @@ def get_datalane_sa_key_file_path() -> str:
     # Get the current directory
     current_dir = os.getcwd()
 
-    # Find the root of the Git repository
+    # Find the root of the Git repository - this will work for truecallerpy since it'll look for the datalane repo's root location
     repo = git.Repo(current_dir, search_parent_directories=True)
     root_path = repo.git.rev_parse("--show-toplevel")
 
@@ -34,13 +34,16 @@ class TrueCallerSecretsProvider:
 
         if not self.service_account_location:
             raise AttributeError("Service account location not set")
-
+        print(
+            f"Looking for service account credentials: {self.service_account_location}"
+        )
         self.secrets_manager_client: SecretManagerServiceClient = (
             SecretManagerServiceClient.from_service_account_json(
                 filename=self.service_account_location
             )
         )
         self._secrets: dict[str, str] = self._load_all_secrets()
+        print("Secrets loaded successfully from TrueCallerSecretsProvider")
 
     def get_secret(self, secret_name: str) -> str:
         """Get a secret from SecretsProvider given a secret name"""
