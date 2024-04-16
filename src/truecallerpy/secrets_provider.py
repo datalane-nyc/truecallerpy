@@ -67,12 +67,3 @@ class TrueCallerSecretsProvider:
             print(f"Loaded secrets from SecretManager for path: {name}")
             return self._secrets
         return {}
-
-
-def main():
-    secrets_provider = TrueCallerSecretsProvider()
-    print(secrets_provider.get_secret("APOLLO_API_KEY"))
-
-
-if __name__ == "__main__":
-    main()
