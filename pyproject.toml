@@ -12,6 +12,8 @@ httpx = "*"
 phonenumbers = "*"
 questionary = "*"
 colorama = "*"
+google-cloud-secret-manager = "^2.19.0"
+gitpython = "^3.1.43"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
