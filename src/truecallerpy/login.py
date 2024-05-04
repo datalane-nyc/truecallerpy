@@ -21,7 +21,7 @@ async def generate_random_string(length: int) -> str:
     return ''.join(random.choice(characters) for _ in range(length))
 
 
-async def login(phone_number: str, device : dict = DEFAULT_SAMSUNG_DEVICE, device_id : str = "kyzqrmqcjlhsdexh") -> dict:
+async def login(phone_number: str, device : dict = DEFAULT_SAMSUNG_DEVICE, device_id : str = "ajvfgtoxqibhzwrn") -> dict:
     """
     Login to Truecaller.
 
