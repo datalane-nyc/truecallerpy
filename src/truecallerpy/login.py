@@ -2,7 +2,7 @@ import httpx
 import random
 from phonenumbers import parse as parse_phone_number
 from phonenumbers.phonenumberutil import region_code_for_country_code
-from .data.phones_list import DEFAULT_SAMSUNG_DEVICE
+from .data.phones_list import get_random_device
 from .proxy import PROXY, SSL_CONTEXT
 
 
@@ -21,7 +21,7 @@ async def generate_random_string(length: int) -> str:
     return ''.join(random.choice(characters) for _ in range(length))
 
 
-async def login(phone_number: str, device : dict = DEFAULT_SAMSUNG_DEVICE, device_id : str = "ajvfgtoxqibhzwrn") -> dict:
+async def login(phone_number: str) -> dict:
     """
     Login to Truecaller.
 
@@ -32,7 +32,8 @@ async def login(phone_number: str, device : dict = DEFAULT_SAMSUNG_DEVICE, devic
         dict: The login response containing the requestId used for OTP verification.
     """
     pn = parse_phone_number(phone_number, None)
-    # device = get_random_device()
+    device = get_random_device()
+    device_id = await generate_random_string(16)
 
     if not pn or not pn.country_code or not pn.national_number:
         raise ValueError("Invalid phone number.")
