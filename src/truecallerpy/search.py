@@ -10,9 +10,9 @@ import sys
 import traceback
 import asyncio
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("httpx")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 # _PROXY_URL = "http://185.193.157.60:12321"
