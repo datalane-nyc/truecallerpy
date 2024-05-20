@@ -4,15 +4,10 @@ import httpx
 from phonenumbers import parse
 from .proxy import PROXY, SSL_CONTEXT
 # from aiohttp import ClientSession
-import logging
 import ssl
 import sys
 import traceback
 import asyncio
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("httpx")
-logger.setLevel(logging.INFO)
 
 
 # _PROXY_URL = "http://185.193.157.60:12321"
@@ -57,7 +52,6 @@ async def search_phonenumber(phoneNumber, countryCode, installationId):
         "placement": "SEARCHRESULTS,HISTORY,DETAILS",
         "encoding": "json"
     }
-    logger.info(f"In true caller search library. About to make request for {phoneNumber}")
     cont = ssl.create_default_context()
     cont.options &= ~ssl.OP_NO_TLSv1_3
     cont.options |= ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2
@@ -68,7 +62,6 @@ async def search_phonenumber(phoneNumber, countryCode, installationId):
                 "https://search5-noneu.truecaller.com/v2/search", params=params, headers=headers
             )
 
-            logger.info(f"Request in true caller search library returned for phone number {phoneNumber}")
         response.raise_for_status()
 
         return {
@@ -77,24 +70,19 @@ async def search_phonenumber(phoneNumber, countryCode, installationId):
         }
     except asyncio.CancelledError as e:
          # Print the exception's message
-        logger.error(f"Operation cancelled in true caller: {e}")
 
         # Print more detailed info about the exception itself
         exc_type, exc_obj, exc_tb = sys.exc_info()
-        logger.error(f"here is the exc type {exc_type} and exc_obj {exc_obj}")
         if exc_tb:
             fname = exc_tb.tb_frame.f_code.co_filename
             line_no = exc_tb.tb_lineno
-            logger.error(f"Exception occurred in file: {fname}, at line: {line_no}")
 
         # Print the full traceback to understand the exception's origin and propagation
-        logger.info("Full traceback:")
         tb_str = traceback.format_exception(exc_type, exc_obj, exc_tb)
         traceback_str = "".join(tb_str)
 
         # Log the full traceback
-        logging.error(f"Full traceback:\n{traceback_str}")
-        raise CancelledError(f"Operation Cancelled with stacktrace {traceback_str}")
+        raise CancelledError(f"Operation Cancelled with stacktrace {traceback_str} and error {e}")
     except httpx.HTTPError as exc:
         error_message = "An HTTP error occurred: " + str(exc)
         return {
